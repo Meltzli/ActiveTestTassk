@@ -22,7 +22,7 @@ const App = () => (
           </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ padding: '24px' }}>
+      <Content style={{ padding: '20px' }}>
         <Routes>
           <Route path="/products" element={<Products />} />
           <Route path="/favorites" element={<Favorites />} />
