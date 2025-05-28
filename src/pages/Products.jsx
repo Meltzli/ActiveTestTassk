@@ -17,7 +17,7 @@ const Products = () => (
           cover={
             <img
               alt={product.name}
-              src={product.image || 'https://via.placeholder.com/150'}
+              src={product.image || '../assets/placeholder.webp'}
               style={{ objectFit: 'cover', height: 200 }}
             />
           }
