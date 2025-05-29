@@ -1,44 +1,32 @@
-import React from 'react';
-import { Card, Button, Row, Col } from 'antd';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, Spin, Empty } from 'antd';
+import { fetchProducts } from '../store/productsSlice';
+import ProductCard from "../components/productCard"
 
-const products = Array.from({ length: 8 }, (_, i) => ({
-  id: i + 1,
-  name: `Товар ${i + 1}`,
-  price: `${(i + 1) * 10}₽`,
-  inStock: i % 3 !== 0,
-  image: null,
-}));
+const Products = () => {
+  const dispatch = useDispatch();
+  const { items: products, loading, error } = useSelector(state => state.products);
 
-const Products = () => (
-  <Row gutter={[16, 16]}>
-    {products.map(product => (
-      <Col key={product.id} span={6}>
-        <Card
-          cover={
-            <img
-              alt={product.name}
-              src={product.image || '../assets/placeholder.webp'}
-              style={{ objectFit: 'cover', height: 200 }}
-            />
-          }
-          actions={[
-            product.inStock ? (
-              <>
-                <Button type="primary" disabled>
-                  В корзине
-                </Button>
-                <Button disabled>В избранном</Button>
-              </>
-            ) : (
-              <Button disabled>Отсутствует</Button>
-            ),
-          ]}
-        >
-          <Card.Meta title={product.name} description={product.price} />
-        </Card>
-      </Col>
-    ))}
-  </Row>
-);
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  if (loading) return <Spin size="large" />;
+  if (error) return <div>{`Ошибка: ${error}`}</div>;
+  if (!products.length) return <Empty description="Нет товаров" />;
+
+  return (
+    <Row gutter={[16, 16]}>
+      {products.map(product => (
+        <Col key={product.id} span={6}>
+          <div style={{ height: '100%' }}>
+            <ProductCard product={product} />
+          </div>
+        </Col>
+      ))}
+    </Row>
+  );
+};
 
 export default Products;

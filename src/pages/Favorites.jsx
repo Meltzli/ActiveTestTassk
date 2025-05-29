@@ -1,10 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button, Empty, Row, Col } from 'antd';
-
-const favorites = []; // Пока пусто
-
+import { removeFromFavorites } from '../store/favoritesSlice';
+import Image from "../assets/placeholder.webp"
 const Favorites = () => {
-  if (!favorites.length) {
+  const dispatch = useDispatch();
+  const favorites = useSelector(state => state.favorites);
+
+  if (favorites.length === 0) {
     return <Empty description="Нет товаров в избранном" />;
   }
 
@@ -16,11 +19,15 @@ const Favorites = () => {
             cover={
               <img
                 alt={product.name}
-                src={product.image || 'https://via.placeholder.com/150'}
+                src={product.preview_picture || Image}
                 style={{ objectFit: 'cover', height: 200 }}
               />
             }
-            actions={[<Button danger>Удалить из избранного</Button>]}
+            actions={[
+              <Button danger onClick={() => dispatch(removeFromFavorites(product))}>
+                Удалить из избранного
+              </Button>,
+            ]}
           >
             <Card.Meta title={product.name} description={product.price} />
           </Card>

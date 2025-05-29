@@ -1,9 +1,13 @@
 import React from 'react';
-import { Card, Button, Empty, Row, Col } from 'antd';
-
-const cartItems = []; // Пока пусто
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, Button, Row, Col, Empty } from 'antd';
+import { removeFromCart } from '../store/cartSlice';
+import Image from "../assets/placeholder.webp"
 
 const Cart = () => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart);
+
   if (!cartItems.length) {
     return <Empty description="Нет товаров в корзине" />;
   }
@@ -16,11 +20,18 @@ const Cart = () => {
             cover={
               <img
                 alt={product.name}
-                src={product.image || 'https://via.placeholder.com/150'}
+                src={product.preview_picture || Image}
                 style={{ objectFit: 'cover', height: 200 }}
               />
             }
-            actions={[<Button danger>Удалить из корзины</Button>]}
+            actions={[
+              <Button
+                danger
+                onClick={() => dispatch(removeFromCart(product))}
+              >
+                Удалить из корзины
+              </Button>
+            ]}
           >
             <Card.Meta title={product.name} description={product.price} />
           </Card>
