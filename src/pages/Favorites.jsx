@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button, Empty, Row, Col } from 'antd';
 import { removeFromFavorites } from '../store/favoritesSlice';
 import Image from "../assets/placeholder.webp"
+import ProductCard from "../components/productCard";
 const Favorites = () => {
   const dispatch = useDispatch();
   const favorites = useSelector(state => state.favorites);
@@ -15,22 +16,9 @@ const Favorites = () => {
     <Row gutter={[16, 16]}>
       {favorites.map(product => (
         <Col key={product.id} span={6}>
-          <Card
-            cover={
-              <img
-                alt={product.name}
-                src={product.preview_picture || Image}
-                style={{ objectFit: 'cover', height: 200 }}
-              />
-            }
-            actions={[
-              <Button danger onClick={() => dispatch(removeFromFavorites(product))}>
-                Удалить из избранного
-              </Button>,
-            ]}
-          >
-            <Card.Meta title={product.name} description={product.price} />
-          </Card>
+           <div style={{ height: '100%' }}>
+            <ProductCard product={product} />
+          </div>
         </Col>
       ))}
     </Row>

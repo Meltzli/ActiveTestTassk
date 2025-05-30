@@ -1,12 +1,13 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Row, Col, Empty } from 'antd';
-import { removeFromCart } from '../store/cartSlice';
-import Image from "../assets/placeholder.webp"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Button, Row, Col, Empty } from "antd";
+import { removeFromCart } from "../store/cartSlice";
+import Image from "../assets/placeholder.webp";
+import ProductCard from "../components/productCard";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.cart);
+  const cartItems = useSelector((state) => state.cart);
 
   if (!cartItems.length) {
     return <Empty description="Нет товаров в корзине" />;
@@ -14,27 +15,11 @@ const Cart = () => {
 
   return (
     <Row gutter={[16, 16]}>
-      {cartItems.map(product => (
+      {cartItems.map((product) => (
         <Col key={product.id} span={6}>
-          <Card
-            cover={
-              <img
-                alt={product.name}
-                src={product.preview_picture || Image}
-                style={{ objectFit: 'cover', height: 200 }}
-              />
-            }
-            actions={[
-              <Button
-                danger
-                onClick={() => dispatch(removeFromCart(product))}
-              >
-                Удалить из корзины
-              </Button>
-            ]}
-          >
-            <Card.Meta title={product.name} description={product.price} />
-          </Card>
+          <div style={{ height: "100%" }}>
+            <ProductCard product={product} />
+          </div>
         </Col>
       ))}
     </Row>
