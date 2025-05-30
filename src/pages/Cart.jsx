@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Button, Row, Col, Empty } from "antd";
-import { removeFromCart } from "../store/cartSlice";
-import Image from "../assets/placeholder.webp";
+import { Row, Col, Empty } from "antd";
 import ProductCard from "../components/productCard";
 
 const Cart = () => {
